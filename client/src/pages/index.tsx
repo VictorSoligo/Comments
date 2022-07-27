@@ -8,6 +8,8 @@ const Home: NextPage = () => {
     <div className="flex flex-col h-screen bg-gray-100 items-center py-10">
       <CommentsList />
 
+      <div className="flex-1"></div>
+
       <AddCommentForm />
     </div>
   );
