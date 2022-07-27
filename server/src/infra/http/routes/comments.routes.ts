@@ -2,8 +2,10 @@ import { Router } from 'express';
 
 import { routeAdapter } from '@core/infra/adapters/ExpressRouteAdapter';
 
-import { makeCreateUserController } from '@infra/http/factories/controllers/CreateCommentControllerFactory';
+import { makeCreateCommentController } from '@infra/http/factories/controllers/CreateCommentControllerFactory';
+import { makeGetLast3Controller } from '@infra/http/factories/controllers/GetLast3CommentsControllerFactory';
 
 export const commentsRouter = Router();
 
-commentsRouter.post('/', routeAdapter(makeCreateUserController()));
+commentsRouter.get('/', routeAdapter(makeGetLast3Controller()));
+commentsRouter.post('/', routeAdapter(makeCreateCommentController()));

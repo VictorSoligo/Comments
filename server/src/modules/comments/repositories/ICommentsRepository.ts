@@ -1,4 +1,4 @@
-import { Comment } from '@prisma/client';
+import { CommentWithUserInfo } from '../dtos/CommentWithUserInfo';
 
 export type CreateCommentParams = {
   description: string;
@@ -7,4 +7,5 @@ export type CreateCommentParams = {
 
 export interface ICommentsRepository {
   create: (data: CreateCommentParams) => Promise<void>;
+  getLast3: () => Promise<CommentWithUserInfo[]>
 }

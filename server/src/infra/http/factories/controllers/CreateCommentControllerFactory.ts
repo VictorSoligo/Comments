@@ -4,7 +4,7 @@ import { CommentsRepository } from '@modules/comments/repositories/prisma/Commen
 import { CreateComment } from '@modules/comments/useCases/CreateComment';
 import { CreateCommentController } from '@modules/comments/controllers/CreateCommentController';
 
-export function makeCreateUserController(): Controller {
+export function makeCreateCommentController(): Controller {
   const commentsRepository = new CommentsRepository();
   const createComment = new CreateComment(commentsRepository);
   const createCommentController = new CreateCommentController(createComment);
