@@ -1,9 +1,11 @@
-import { prisma } from '@infra/prisma/client'
+import { prisma } from '@infra/prisma/client';
 
-import { ICommentsRepository, CreateCommentParams } from '../ICommentsRepository';
+import {
+  ICommentsRepository,
+  CreateCommentParams,
+} from '../ICommentsRepository';
 
 export class CommentsRepository implements ICommentsRepository {
-
   async getLast3() {
     const comments = await prisma.comment.findMany({
       orderBy: {
@@ -15,8 +17,13 @@ export class CommentsRepository implements ICommentsRepository {
         description: true,
         likes: true,
         created_at: true,
-        user_id: true,
-      }
+        user: {
+          select: {
+            avatar_url: true,
+            id: true,
+          },
+        },
+      },
     });
 
     return comments;
@@ -26,7 +33,7 @@ export class CommentsRepository implements ICommentsRepository {
     await prisma.comment.create({
       data: {
         description,
-        user_id
+        user_id,
       },
     });
   }

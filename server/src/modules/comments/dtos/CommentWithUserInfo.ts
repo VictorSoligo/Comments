@@ -3,5 +3,8 @@ export type CommentWithUserInfo = {
   likes: number;
   description: string;
   created_at: Date;
-  user_id: string;
+  user: {
+    id: string;
+    avatar_url: string;
+  };
 }
