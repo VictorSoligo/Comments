@@ -24,6 +24,22 @@ export class CommentsRepository implements ICommentsRepository {
             name: true,
           },
         },
+        replies: {
+          select: {
+            id: true,
+            referenced_user: true,
+            description: true,
+            likes: true,
+            created_at: true,
+            user: {
+              select: {
+                avatar_url: true,
+                id: true,
+                name: true,
+              },
+            },
+          },
+        },
       },
     });
 

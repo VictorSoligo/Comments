@@ -14,7 +14,8 @@ model User {
   avatar_url String
   login      String
   comments   Comment[]
-  created_at  DateTime @default(now())
+  replies    Reply[]
+  created_at DateTime  @default(now())
 
   @@map("users")
 }
@@ -25,10 +26,28 @@ model Comment {
   description String
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
+  replies     Reply[]
 
   user_id String
 
   user User @relation(fields: [user_id], references: [id])
 
   @@map("comments")
+}
+
+model Reply {
+  id              String   @id @default(uuid())
+  likes           Int      @default(0)
+  description     String
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
+  referenced_user String
+
+  user_id    String
+  comment_id String
+
+  user    User    @relation(fields: [user_id], references: [id])
+  comment Comment @relation(fields: [comment_id], references: [id])
+
+  @@map("replies")
 }
