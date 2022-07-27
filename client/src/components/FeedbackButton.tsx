@@ -1,14 +1,18 @@
 import { useState } from 'react';
 
-export const FeedbackButton = () => {
-  const [count, setCount] = useState(0);
+type FeedbackButtonProps = {
+  likes: number
+}
+
+export const FeedbackButton = ({ likes }: FeedbackButtonProps) => {
+  const [likesCount, setLikesCount] = useState(likes);
 
   function handleIncrement() {
-    setCount((prevState) => prevState + 1);
+    setLikesCount((prevState) => prevState + 1);
   }
 
   function handleDecrement() {
-    setCount((prevState) => prevState - 1);
+    setLikesCount((prevState) => prevState - 1);
   }
   return (
     <div className="flex flex-row md:flex-col mr-6 items-center bg-indigo-50 rounded-lg">
@@ -16,7 +20,7 @@ export const FeedbackButton = () => {
         <img className="md:w-5" src="/icons/icon-plus.svg" alt="Add like" />
       </button>
 
-      <span className="text-lg text-indigo-700 font-bold">{count}</span>
+      <span className="text-lg text-indigo-700 font-bold">{likesCount}</span>
 
       <button className="flex items-center p-4" onClick={handleDecrement}>
         <img className="md:w-5" src="/icons/icon-minus.svg" alt="Add dislike" />

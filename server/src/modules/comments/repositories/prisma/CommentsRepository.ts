@@ -21,6 +21,7 @@ export class CommentsRepository implements ICommentsRepository {
           select: {
             avatar_url: true,
             id: true,
+            name: true,
           },
         },
       },

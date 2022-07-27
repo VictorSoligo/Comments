@@ -1,11 +1,27 @@
 import { FeedbackButton } from './FeedbackButton';
 import { ReplyButton } from './ReplyButton';
 
-export const Comment = () => {
+export type CommentData = {
+  id: string;
+  likes: number;
+  description: string;
+  created_at: string;
+  user: {
+    id: string;
+    avatar_url: string;
+    name: string;
+  };
+};
+
+type CommentProps = {
+  comment: CommentData
+}
+
+export const Comment = ({ comment }: CommentProps) => {
   return (
     <div className="flex flex-row mb-4 last:mb-0 w-full bg-white p-6 rounded-lg">
       <div className="hidden md:block">
-        <FeedbackButton />
+        <FeedbackButton likes={comment.likes} />
       </div>
 
       <div className="flex flex-col w-full">
@@ -13,16 +29,16 @@ export const Comment = () => {
           <div className="flex items-center">
             <img
               className="rounded-full mr-4"
-              src="https://avatars.githubusercontent.com/u/54515535?v=4"
+              src={comment.user.avatar_url}
               height={30}
               width={30}
             />
 
             <span className="text-gray-800 font-semibold mr-4">
-              VictorSoligo
+              {comment.user.name}
             </span>
 
-            <span className="text-gray-500">2 weeks ago</span>
+            <span className="text-gray-500">{comment.created_at}</span>
           </div>
 
           <div className="hidden md:flex">
@@ -31,13 +47,11 @@ export const Comment = () => {
         </div>
 
         <div className="text-gray-500">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Minus
-          consequatur ullam laudantium eaque repudiandae nisi excepturi nobis
-          asperiores illo recusandae aliquam consectetur inventore, culpa sed
+          {comment.description}
         </div>
 
         <div className="flex md:hidden items-center justify-between mt-4">
-          <FeedbackButton />
+          <FeedbackButton likes={comment.likes} />
 
           <ReplyButton />
         </div>
