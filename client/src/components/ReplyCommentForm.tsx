@@ -57,7 +57,8 @@ export const ReplyCommentForm = ({
   return (
     <div
       className={classnames('flex w-full bg-white p-6 rounded-lg', {
-        'mb-4': !isReply,
+        'mb-4 last:mb-0': !isReply,
+        'mt-4': isReply,
       })}
     >
       <div>

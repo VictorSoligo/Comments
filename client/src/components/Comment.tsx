@@ -1,19 +1,23 @@
-import { useState } from 'react';
+import { Component, useState } from 'react';
+
 import { FeedbackButton } from './FeedbackButton';
 import { RepliesList } from './RepliesList';
 import { ReplyButton } from './ReplyButton';
 import { ReplyCommentForm } from './ReplyCommentForm';
 
-export type ReplyData = Omit<CommentData, "replies"> & {
+import classNames from 'classnames';
+
+export type ReplyData = Omit<CommentData, 'replies'> & {
   referenced_user: string;
   comment_id: string;
-}
+};
 
 export type CommentData = {
   id: string;
   likes: number;
   description: string;
   created_at: string;
+  referenced_user?: string;
   user: {
     id: string;
     avatar_url: string;
@@ -33,9 +37,19 @@ export const Comment = ({ comment }: CommentProps) => {
     setIsReplying((prevState) => !prevState);
   }
 
+  const isReply = comment.replies?.length === undefined;
+
   return (
     <>
-      <div className="flex flex-row mb-4 last:mb-0 w-full bg-white p-6 rounded-lg">
+      <div
+        className={classNames(
+          'flex flex-row last:mb-0 w-full bg-white p-6 rounded-lg',
+          {
+            'mb-4': !isReply,
+            'mt-4 first:mt-0': isReply,
+          }
+        )}
+      >
         <div className="hidden md:block">
           <FeedbackButton likes={comment.likes} />
         </div>
@@ -62,7 +76,15 @@ export const Comment = ({ comment }: CommentProps) => {
             </div>
           </div>
 
-          <div className="text-gray-500">{comment.description}</div>
+          <div className="text-gray-500">
+            {comment.referenced_user && (
+              <span className="text-indigo-700 font-bold">
+                {`@${comment.referenced_user}`}
+              </span>
+            )}
+            {' '}
+            {comment.description}
+          </div>
 
           <div className="flex md:hidden items-center justify-between mt-4">
             <FeedbackButton likes={comment.likes} />
@@ -74,7 +96,7 @@ export const Comment = ({ comment }: CommentProps) => {
 
       {isReplying && (
         <ReplyCommentForm
-          isReply={comment.replies?.length === undefined}
+          isReply={isReply}
           setIsReplying={setIsReplying}
           comment={comment}
         />
