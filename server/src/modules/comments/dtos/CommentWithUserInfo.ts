@@ -1,14 +1,6 @@
-type Reply = {
-  id: string;
-  likes: number;
-  description: string;
-  created_at: Date;
+type Reply = Omit<CommentWithUserInfo, "replies"> & {
   comment_id: string;
-  user: {
-    id: string;
-    avatar_url: string;
-    name: string;
-  };
+  referenced_user: string;
 }
 
 export type CommentWithUserInfo = {

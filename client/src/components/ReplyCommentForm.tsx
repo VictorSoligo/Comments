@@ -41,17 +41,20 @@ export const ReplyCommentForm = ({
 
     const comment_id = isReply ? comment.comment_id : comment.id;
 
-    api.post('/replies', {
-      description,
-      comment_id,
-      referenced_user: comment.user.name,
-      user_id: 'f095b1a6-3682-42a2-ab60-3e3c578e9b7e',
-    }).then(() => {
-      setIsReplying(false);
-      router.replace(router.asPath);
-    }).finally(() => {
-      setIsSubmitting(false);
-    });
+    api
+      .post('/replies', {
+        description,
+        comment_id,
+        referenced_user: comment.user.name,
+        user_id: user?.id,
+      })
+      .then(() => {
+        setIsReplying(false);
+        router.replace(router.asPath);
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+      });
   }
 
   return (
@@ -63,8 +66,10 @@ export const ReplyCommentForm = ({
     >
       <div>
         <img
-          className="rounded-full mr-4"
-          src="https://avatars.githubusercontent.com/u/54515535?v=4"
+          className={classnames('rounded-full mr-4', {
+            'border border-indigo-700 bg-indigo-50': !user,
+          })}
+          src={user?.avatar_url}
           height={40}
           width={40}
         />
@@ -83,7 +88,7 @@ export const ReplyCommentForm = ({
           disabled={isSubmitting}
           onClick={handleSubmitReply}
           className={classnames(
-            'py-2 px-5 rounded-md uppercase text-white hover:bg-indigo-500 text-sm font-semibold transition-colors',
+            'py-2 px-5 rounded-md uppercase text-white hover:opacity-80 text-sm font-semibold transition-colors',
             {
               'bg-indigo-700': !isSubmitting,
               'bg-indigo-300': isSubmitting,

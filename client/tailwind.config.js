@@ -6,6 +6,11 @@ module.exports = {
       fontFamily: {
         sans: 'Inter, sans-serif',
       },
+      colors: {
+        indigo: {
+          700: '#5457B6'
+        }
+      }
     },
   },
   plugins: [],

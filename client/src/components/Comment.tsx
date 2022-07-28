@@ -1,9 +1,11 @@
-import { Component, useState } from 'react';
+import { useState } from 'react';
 
 import { FeedbackButton } from './FeedbackButton';
 import { RepliesList } from './RepliesList';
 import { ReplyButton } from './ReplyButton';
 import { ReplyCommentForm } from './ReplyCommentForm';
+
+import { formatDistance } from 'date-fns';
 
 import classNames from 'classnames';
 
@@ -39,6 +41,14 @@ export const Comment = ({ comment }: CommentProps) => {
 
   const isReply = comment.replies?.length === undefined;
 
+  const formattedDate = formatDistance(
+    new Date(comment.created_at),
+    new Date(),
+    {
+      addSuffix: true,
+    }
+  );
+
   return (
     <>
       <div
@@ -68,7 +78,7 @@ export const Comment = ({ comment }: CommentProps) => {
                 {comment.user.name}
               </span>
 
-              <span className="text-gray-500">{comment.created_at}</span>
+              <span className="text-gray-500">{formattedDate}</span>
             </div>
 
             <div className="hidden md:flex">
@@ -81,8 +91,7 @@ export const Comment = ({ comment }: CommentProps) => {
               <span className="text-indigo-700 font-bold">
                 {`@${comment.referenced_user}`}
               </span>
-            )}
-            {' '}
+            )}{' '}
             {comment.description}
           </div>
 
