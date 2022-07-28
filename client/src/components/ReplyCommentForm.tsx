@@ -1,24 +1,35 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
 import { useAuth } from '../contexts/Auth';
 
 import classnames from 'classnames';
+
+import { useRouter } from 'next/router';
+
 import { api } from '../services/api';
+
+import { CommentData } from './Comment';
+
+type Comment = CommentData & {
+  referenced_user?: string;
+  comment_id?: string;
+};
 
 type ReplyCommentFromProps = {
   isReply: boolean;
-  id_comment: string;
-  user_name: string;
+  setIsReplying: Dispatch<SetStateAction<boolean>>;
+  comment: Comment;
 };
 
 export const ReplyCommentForm = ({
   isReply,
-  id_comment,
-  user_name,
+  setIsReplying,
+  comment,
 }: ReplyCommentFromProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [description, setDescription] = useState('');
 
+  const router = useRouter();
   const { user } = useAuth();
 
   async function handleSubmitReply() {
@@ -27,6 +38,20 @@ export const ReplyCommentForm = ({
     }
 
     setIsSubmitting(true);
+
+    const comment_id = isReply ? comment.comment_id : comment.id;
+
+    api.post('/replies', {
+      description,
+      comment_id,
+      referenced_user: comment.user.name,
+      user_id: 'f095b1a6-3682-42a2-ab60-3e3c578e9b7e',
+    }).then(() => {
+      setIsReplying(false);
+      router.replace(router.asPath);
+    }).finally(() => {
+      setIsSubmitting(false);
+    });
   }
 
   return (

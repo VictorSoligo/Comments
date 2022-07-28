@@ -31,6 +31,7 @@ export class CommentsRepository implements ICommentsRepository {
             description: true,
             likes: true,
             created_at: true,
+            comment_id: true,
             user: {
               select: {
                 avatar_url: true,

@@ -5,7 +5,8 @@ import { ReplyButton } from './ReplyButton';
 import { ReplyCommentForm } from './ReplyCommentForm';
 
 export type ReplyData = Omit<CommentData, "replies"> & {
-  refereced_user: string;
+  referenced_user: string;
+  comment_id: string;
 }
 
 export type CommentData = {
@@ -73,9 +74,9 @@ export const Comment = ({ comment }: CommentProps) => {
 
       {isReplying && (
         <ReplyCommentForm
-          isReply={!comment.replies?.length!}
-          id_comment={comment.id}
-          user_name={comment.user.name}
+          isReply={comment.replies?.length === undefined}
+          setIsReplying={setIsReplying}
+          comment={comment}
         />
       )}
 

@@ -15,6 +15,6 @@ export class CreateCommentController implements Controller {
       user_id
     });
 
-    return response.json({ ok: 'Tudo certo' });
+    return response.status(201).json({ message: 'Created comment' });
   }
 }

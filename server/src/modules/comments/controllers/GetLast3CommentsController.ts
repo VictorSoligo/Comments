@@ -10,6 +10,6 @@ export class GetLast3CommentsController implements Controller {
   async handle(request: Request, response: Response) {
     const comments = await this.getLast3Comments.execute();
 
-    return response.json({ comments });
+    return response.status(200).json({ comments });
   }
 }

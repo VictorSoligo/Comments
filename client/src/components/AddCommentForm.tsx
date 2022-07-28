@@ -25,6 +25,7 @@ export const AddCommentForm = () => {
         user_id: 'f095b1a6-3682-42a2-ab60-3e3c578e9b7e',
       })
       .then(() => {
+        setDescription('');
         router.replace(router.asPath);
       })
       .finally(() => {

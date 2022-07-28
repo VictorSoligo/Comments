@@ -3,6 +3,7 @@ type Reply = {
   likes: number;
   description: string;
   created_at: Date;
+  comment_id: string;
   user: {
     id: string;
     avatar_url: string;
