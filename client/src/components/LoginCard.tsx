@@ -7,7 +7,7 @@ export const LoginCard = () => {
     <div className="mb-6">
       <a
         href={signInUrl}
-        className="text-white bg-[#333] py-2 px-5 rounded-md"
+        className="text-white flex bg-[#333] py-2 px-5 rounded-md font-semibold"
       >
         Login com Github
       </a>
