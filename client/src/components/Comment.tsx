@@ -1,18 +1,11 @@
+import { useState } from 'react';
 import { FeedbackButton } from './FeedbackButton';
 import { RepliesList } from './RepliesList';
 import { ReplyButton } from './ReplyButton';
+import { ReplyCommentForm } from './ReplyCommentForm';
 
-export type ReplyData = {
-  id: string;
-  likes: number;
-  description: string;
-  created_at: string;
-  referenced_user: string;
-  user: {
-    id: string;
-    avatar_url: string;
-    name: string;
-  };
+export type ReplyData = Omit<CommentData, "replies"> & {
+  refereced_user: string;
 }
 
 export type CommentData = {
@@ -33,6 +26,12 @@ type CommentProps = {
 };
 
 export const Comment = ({ comment }: CommentProps) => {
+  const [isReplying, setIsReplying] = useState(false);
+
+  function toggleReplyForm() {
+    setIsReplying((prevState) => !prevState);
+  }
+
   return (
     <>
       <div className="flex flex-row mb-4 last:mb-0 w-full bg-white p-6 rounded-lg">
@@ -58,7 +57,7 @@ export const Comment = ({ comment }: CommentProps) => {
             </div>
 
             <div className="hidden md:flex">
-              <ReplyButton />
+              <ReplyButton onClick={toggleReplyForm} />
             </div>
           </div>
 
@@ -67,12 +66,22 @@ export const Comment = ({ comment }: CommentProps) => {
           <div className="flex md:hidden items-center justify-between mt-4">
             <FeedbackButton likes={comment.likes} />
 
-            <ReplyButton />
+            <ReplyButton onClick={toggleReplyForm} />
           </div>
         </div>
       </div>
 
-      {comment.replies?.length! > 0 ? <RepliesList replies={comment.replies!} /> : null}
+      {isReplying && (
+        <ReplyCommentForm
+          isReply={!comment.replies?.length!}
+          id_comment={comment.id}
+          user_name={comment.user.name}
+        />
+      )}
+
+      {comment.replies?.length! > 0 ? (
+        <RepliesList replies={comment.replies!} />
+      ) : null}
     </>
   );
 };

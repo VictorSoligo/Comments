@@ -9,9 +9,11 @@ export const RepliesList = ({ replies }: RepliesListProps) => {
     <div className="flex w-full mb-4 last:mb-0">
       <div className="h-auto w-[2px] bg-gray-200 mx-10"></div>
 
-      {replies.map((reply) => (
-        <Comment key={reply.id} comment={reply} />
-      ))}
+      <div className="flex flex-col w-full">
+        {replies.map((reply) => (
+          <Comment key={reply.id} comment={reply} />
+        ))}
+      </div>
     </div>
   );
 };
