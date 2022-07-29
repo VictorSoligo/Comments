@@ -36,7 +36,7 @@ export const AddCommentForm = () => {
   }
 
   return (
-    <div className="mt-4 flex w-11/12 md:w-3/5 bg-white p-6 rounded-lg">
+    <div className="mt-4 flex w-11/12 md:w-[65%] bg-white p-6 rounded-lg">
       <div>
         <img
           className={classnames('rounded-full mr-4', {
