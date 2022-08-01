@@ -2,12 +2,12 @@ import { useState } from 'react';
 
 import { FeedbackButton } from './FeedbackButton';
 import { RepliesList } from './RepliesList';
-import { ReplyButton } from './ReplyButton';
 import { ReplyCommentForm } from './ReplyCommentForm';
 
 import { formatDistance } from 'date-fns';
 
 import classNames from 'classnames';
+import { CommentActions } from './CommentActions';
 
 export type ReplyData = Omit<CommentData, 'replies'> & {
   referenced_user: string;
@@ -52,13 +52,10 @@ export const Comment = ({ comment }: CommentProps) => {
   return (
     <>
       <div
-        className={classNames(
-          'flex flex-row last:mb-0 w-full bg-white p-6 rounded-lg',
-          {
-            'mb-4': !isReply,
-            'mt-4 first:mt-0': isReply,
-          }
-        )}
+        className={classNames('flex last:mb-0 w-full bg-white p-6 rounded-lg', {
+          'mb-4': !isReply,
+          'mt-4 first:mt-0': isReply,
+        })}
       >
         <div className="hidden md:block">
           <FeedbackButton likes={comment.likes} />
@@ -82,23 +79,33 @@ export const Comment = ({ comment }: CommentProps) => {
             </div>
 
             <div className="hidden md:flex">
-              <ReplyButton onClick={toggleReplyForm} />
+              <CommentActions
+                isReply={isReply}
+                toggleReplyForm={toggleReplyForm}
+                comment={comment}
+              />
             </div>
           </div>
 
           <div className="text-gray-500">
-            {comment.referenced_user && (
-              <span className="text-indigo-700 font-bold">
-                {`@${comment.referenced_user}`}
-              </span>
-            )}{' '}
-            {comment.description}
+            <span className="break-words">
+              {comment.referenced_user && (
+                <span className="text-indigo-700 font-bold">
+                  {`@${comment.referenced_user}`}
+                </span>
+              )}{' '}
+              {comment.description}
+            </span>
           </div>
 
           <div className="flex md:hidden items-center justify-between mt-4">
             <FeedbackButton likes={comment.likes} />
 
-            <ReplyButton onClick={toggleReplyForm} />
+            <CommentActions
+              isReply={isReply}
+              toggleReplyForm={toggleReplyForm}
+              comment={comment}
+            />
           </div>
         </div>
       </div>

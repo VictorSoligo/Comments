@@ -7,4 +7,5 @@ export type CreateReplyParams = {
 
 export interface IRepliesRepository {
   create: (data: CreateReplyParams) => Promise<void>;
+  delete: (id: string) => Promise<void>;
 }

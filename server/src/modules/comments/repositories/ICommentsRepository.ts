@@ -6,6 +6,9 @@ export type CreateCommentParams = {
 }
 
 export interface ICommentsRepository {
+  getLast3: () => Promise<CommentWithUserInfo[]>;
   create: (data: CreateCommentParams) => Promise<void>;
-  getLast3: () => Promise<CommentWithUserInfo[]>
+  delete: (id: string) => Promise<void>;
+  hasReplies: (id: string) => Promise<boolean>;
+  deleteCommentReplies: (id: string) => Promise<void>;
 }

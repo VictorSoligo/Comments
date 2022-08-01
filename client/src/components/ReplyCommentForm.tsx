@@ -1,14 +1,15 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 
+import { useRouter } from 'next/router';
+
 import { useAuth } from '../contexts/Auth';
+
+import { TextArea } from './TextArea';
+import { CommentData } from './Comment';
 
 import classnames from 'classnames';
 
-import { useRouter } from 'next/router';
-
 import { api } from '../services/api';
-
-import { CommentData } from './Comment';
 
 type Comment = CommentData & {
   referenced_user?: string;
@@ -76,11 +77,10 @@ export const ReplyCommentForm = ({
       </div>
 
       <div className="w-full mx-4">
-        <textarea
+        <TextArea
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Add a reply"
-          className="p-2 w-full text-md placeholder-gray-500 text-gray-500 border border-gray-200 bg-transparent rounded-lg resize-none focus:border-indigo-700 outline-none"
-        ></textarea>
+        />
       </div>
 
       <div>

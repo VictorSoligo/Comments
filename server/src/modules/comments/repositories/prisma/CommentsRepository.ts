@@ -55,4 +55,41 @@ export class CommentsRepository implements ICommentsRepository {
       },
     });
   }
+
+  async delete(id: string) {
+    await prisma.comment.delete({
+      where: {
+        id,
+      }
+    });
+  }
+
+  async deleteCommentReplies(id: string) {
+    await prisma.reply.deleteMany({
+      where: {
+        comment_id: id,
+      }
+    });
+  }
+
+  async hasReplies(id: string) {
+    const replies = await prisma.comment.findMany({
+      where: {
+        id
+      },
+      select: {
+        replies: {
+          select: {
+            id: true,
+          }
+        }
+      }
+    });
+
+    if (replies.length > 0) {
+      return true;
+    }
+
+    return false;
+  }
 }

@@ -19,13 +19,13 @@ export const FeedbackButton = ({ likes }: FeedbackButtonProps) => {
   }
 
   return (
-    <div className="flex flex-row md:flex-col mr-6 items-center bg-gray-100 rounded-lg">
+    <div className="flex min-w-max flex-row md:flex-col mr-6 items-center bg-gray-100 rounded-lg">
       <button
         disabled={!user}
         onClick={handleIncrement}
         className="flex items-center p-4 disabled:cursor-not-allowed"
       >
-        <img className="md:w-5" src="/icons/icon-plus.svg" alt="Add like" />
+        <img className="md:w-3" src="/icons/icon-plus.svg" alt="Add like" />
       </button>
 
       <span className="text-lg text-indigo-700 font-bold">{likesCount}</span>
@@ -35,7 +35,7 @@ export const FeedbackButton = ({ likes }: FeedbackButtonProps) => {
         disabled={!user}
         className="flex items-center p-4 disabled:cursor-not-allowed"
       >
-        <img className="md:w-5" src="/icons/icon-minus.svg" alt="Add dislike" />
+        <img className="md:w-3" src="/icons/icon-minus.svg" alt="Add dislike" />
       </button>
     </div>
   );

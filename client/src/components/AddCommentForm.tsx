@@ -2,10 +2,13 @@ import { useState } from 'react';
 
 import { useRouter } from 'next/router';
 
+import { TextArea } from './TextArea';
+
+import { useAuth } from '../contexts/Auth';
+
 import classnames from 'classnames';
 
 import { api } from '../services/api';
-import { useAuth } from '../contexts/Auth';
 
 export const AddCommentForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -49,12 +52,12 @@ export const AddCommentForm = () => {
       </div>
 
       <div className="flex w-full mx-4">
-        <textarea
+        <TextArea
+          value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Add a comment"
           disabled={!user}
-          className="p-2 w-full text-md placeholder-gray-500 text-gray-500 border border-gray-200 bg-transparent rounded-lg resize-none focus:border-indigo-700 outline-none disabled:cursor-not-allowed"
-        ></textarea>
+        />
       </div>
 
       <div className="">

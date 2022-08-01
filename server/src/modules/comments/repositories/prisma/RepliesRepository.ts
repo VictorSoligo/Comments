@@ -14,7 +14,15 @@ export class RepliesRepository implements IRepliesRepository {
         description,
         referenced_user,
         user_id,
-        comment_id
+        comment_id,
+      },
+    });
+  }
+
+  async delete(id: string) {
+    await prisma.reply.delete({
+      where: {
+        id,
       },
     });
   }
