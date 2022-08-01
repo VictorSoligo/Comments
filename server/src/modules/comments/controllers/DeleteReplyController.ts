@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
 
+import { Controller } from '@core/infra/Controller';
 import { DeleteReply } from '../useCases/DeleteReply';
 
-export class DeleteReplyController {
+export class DeleteReplyController implements Controller {
   constructor(private deleteReply: DeleteReply) {}
 
   async handle(request: Request, response: Response) {
