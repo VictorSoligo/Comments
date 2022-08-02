@@ -40,7 +40,7 @@ export const Comment = ({ comment }: CommentProps) => {
   }
 
   function toggleEditComment() {
-    setIsEditing((prevState) => !prevState)
+    setIsEditing((prevState) => !prevState);
   }
 
   const isReply = comment.replies?.length === undefined;
@@ -94,7 +94,7 @@ export const Comment = ({ comment }: CommentProps) => {
 
           <div className="text-gray-500">
             {isEditing ? (
-              <EditCommentForm comment={comment} />
+              <EditCommentForm setIsEditing={setIsEditing} comment={comment} />
             ) : (
               <span className="break-words">
                 {comment.referenced_user && (
