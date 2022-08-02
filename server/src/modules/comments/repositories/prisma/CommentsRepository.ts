@@ -3,6 +3,7 @@ import { prisma } from '@infra/prisma/client';
 import {
   ICommentsRepository,
   CreateCommentParams,
+  UpdateCommentDescriptionParams,
 } from '../ICommentsRepository';
 
 export class CommentsRepository implements ICommentsRepository {
@@ -62,7 +63,7 @@ export class CommentsRepository implements ICommentsRepository {
     await prisma.comment.delete({
       where: {
         id,
-      }
+      },
     });
   }
 
@@ -70,22 +71,22 @@ export class CommentsRepository implements ICommentsRepository {
     await prisma.reply.deleteMany({
       where: {
         comment_id: id,
-      }
+      },
     });
   }
 
   async hasReplies(id: string) {
     const replies = await prisma.comment.findMany({
       where: {
-        id
+        id,
       },
       select: {
         replies: {
           select: {
             id: true,
-          }
-        }
-      }
+          },
+        },
+      },
     });
 
     if (replies.length > 0) {
@@ -93,5 +94,19 @@ export class CommentsRepository implements ICommentsRepository {
     }
 
     return false;
+  }
+
+  async updateCommentDescription({
+    comment_id,
+    description,
+  }: UpdateCommentDescriptionParams) {
+    await prisma.comment.update({
+      where: {
+        id: comment_id,
+      },
+      data: {
+        description,
+      },
+    });
   }
 }

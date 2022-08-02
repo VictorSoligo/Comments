@@ -3,7 +3,12 @@ import { CommentWithUserInfo } from '../dtos/CommentWithUserInfo';
 export type CreateCommentParams = {
   description: string;
   user_id: string;
-}
+};
+
+export type UpdateCommentDescriptionParams = {
+  description: string;
+  comment_id: string;
+};
 
 export interface ICommentsRepository {
   getLast3: () => Promise<CommentWithUserInfo[]>;
@@ -11,4 +16,7 @@ export interface ICommentsRepository {
   delete: (id: string) => Promise<void>;
   hasReplies: (id: string) => Promise<boolean>;
   deleteCommentReplies: (id: string) => Promise<void>;
+  updateCommentDescription: (
+    data: UpdateCommentDescriptionParams
+  ) => Promise<void>;
 }
