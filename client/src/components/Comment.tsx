@@ -3,11 +3,14 @@ import { useState } from 'react';
 import { FeedbackButton } from './FeedbackButton';
 import { RepliesList } from './RepliesList';
 import { ReplyCommentForm } from './ReplyCommentForm';
+import { CommentActions } from './CommentActions';
+import { EditCommentForm } from './EditCommentForm';
+
+import { User } from '../contexts/Auth';
 
 import { formatDistance } from 'date-fns';
 
 import classNames from 'classnames';
-import { CommentActions } from './CommentActions';
 
 export type ReplyData = Omit<CommentData, 'replies'> & {
   referenced_user: string;
@@ -20,11 +23,7 @@ export type CommentData = {
   description: string;
   created_at: string;
   referenced_user?: string;
-  user: {
-    id: string;
-    avatar_url: string;
-    name: string;
-  };
+  user: User;
   replies?: ReplyData[];
 };
 
@@ -34,9 +33,14 @@ type CommentProps = {
 
 export const Comment = ({ comment }: CommentProps) => {
   const [isReplying, setIsReplying] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   function toggleReplyForm() {
     setIsReplying((prevState) => !prevState);
+  }
+
+  function toggleEditComment() {
+    setIsEditing((prevState) => !prevState)
   }
 
   const isReply = comment.replies?.length === undefined;
@@ -72,7 +76,7 @@ export const Comment = ({ comment }: CommentProps) => {
               />
 
               <span className="text-gray-800 font-semibold mr-4">
-                {comment.user.name}
+                {comment.user.login}
               </span>
 
               <span className="text-gray-500">{formattedDate}</span>
@@ -80,31 +84,37 @@ export const Comment = ({ comment }: CommentProps) => {
 
             <div className="hidden md:flex">
               <CommentActions
+                comment={comment}
                 isReply={isReply}
                 toggleReplyForm={toggleReplyForm}
-                comment={comment}
+                toggleEditComment={toggleEditComment}
               />
             </div>
           </div>
 
           <div className="text-gray-500">
-            <span className="break-words">
-              {comment.referenced_user && (
-                <span className="text-indigo-700 font-bold">
-                  {`@${comment.referenced_user}`}
-                </span>
-              )}{' '}
-              {comment.description}
-            </span>
+            {isEditing ? (
+              <EditCommentForm comment={comment} />
+            ) : (
+              <span className="break-words">
+                {comment.referenced_user && (
+                  <span className="text-indigo-700 font-bold">
+                    {`@${comment.referenced_user}`}
+                  </span>
+                )}{' '}
+                {comment.description}
+              </span>
+            )}
           </div>
 
           <div className="flex md:hidden items-center justify-between mt-4">
             <FeedbackButton likes={comment.likes} />
 
             <CommentActions
+              comment={comment}
               isReply={isReply}
               toggleReplyForm={toggleReplyForm}
-              comment={comment}
+              toggleEditComment={toggleEditComment}
             />
           </div>
         </div>

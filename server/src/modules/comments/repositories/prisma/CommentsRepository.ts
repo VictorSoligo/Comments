@@ -22,6 +22,7 @@ export class CommentsRepository implements ICommentsRepository {
             avatar_url: true,
             id: true,
             name: true,
+            login: true,
           },
         },
         replies: {
@@ -37,6 +38,7 @@ export class CommentsRepository implements ICommentsRepository {
                 avatar_url: true,
                 id: true,
                 name: true,
+                login: true,
               },
             },
           },

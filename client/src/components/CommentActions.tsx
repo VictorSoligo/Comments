@@ -13,14 +13,16 @@ import { CommentData } from './Comment';
 
 type CommentActions = {
   comment: CommentData;
-  toggleReplyForm: () => void;
   isReply: boolean;
+  toggleReplyForm: () => void;
+  toggleEditComment: () => void;
 };
 
 export const CommentActions = ({
   comment,
   isReply,
   toggleReplyForm,
+  toggleEditComment,
 }: CommentActions) => {
   const { user } = useAuth();
   const router = useRouter();
@@ -62,7 +64,7 @@ export const CommentActions = ({
             onClick={deleteFunction}
           />
 
-          <Button icon={EditIcon} text="Edit" onClick={toggleReplyForm} />
+          <Button icon={EditIcon} text="Edit" onClick={toggleEditComment} />
         </div>
       ) : (
         <Button icon={ReplyIcon} text="Reply" onClick={toggleReplyForm} />

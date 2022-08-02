@@ -8,7 +8,7 @@ import {
 
 import { api } from '../services/api';
 
-type User = {
+export type User = {
   id: string;
   name: string;
   login: string;

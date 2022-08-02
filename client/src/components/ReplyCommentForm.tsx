@@ -40,13 +40,14 @@ export const ReplyCommentForm = ({
 
     setIsSubmitting(true);
 
+    // if you're replying an reply, pass the relationated comment_id instead
     const comment_id = isReply ? comment.comment_id : comment.id;
 
     api
       .post('/replies', {
         description,
         comment_id,
-        referenced_user: comment.user.name,
+        referenced_user: comment.user.login,
         user_id: user?.id,
       })
       .then(() => {

@@ -12,6 +12,7 @@ export type CommentWithUserInfo = {
     id: string;
     avatar_url: string;
     name: string;
+    login: string;
   };
   replies: Reply[];
 }
