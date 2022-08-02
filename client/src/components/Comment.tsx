@@ -69,7 +69,7 @@ export const Comment = ({ comment }: CommentProps) => {
           <div className="flex justify-between items-center mb-4">
             <div className="flex items-center">
               <img
-                className="rounded-full mr-4"
+                className="rounded-full mr-2"
                 src={comment.user.avatar_url}
                 height={30}
                 width={30}
