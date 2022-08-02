@@ -94,7 +94,11 @@ export const Comment = ({ comment }: CommentProps) => {
 
           <div className="text-gray-500">
             {isEditing ? (
-              <EditCommentForm setIsEditing={setIsEditing} comment={comment} />
+              <EditCommentForm
+                isReply={isReply}
+                setIsEditing={setIsEditing}
+                comment={comment}
+              />
             ) : (
               <span className="break-words">
                 {comment.referenced_user && (

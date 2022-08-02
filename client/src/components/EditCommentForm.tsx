@@ -11,29 +11,46 @@ import classnames from 'classnames';
 type EditCommentFormProps = {
   comment: CommentData;
   setIsEditing: Dispatch<SetStateAction<boolean>>;
-}
+  isReply: boolean;
+};
 
-export const EditCommentForm = ({ comment, setIsEditing }: EditCommentFormProps) => {
+export const EditCommentForm = ({
+  comment,
+  setIsEditing,
+  isReply,
+}: EditCommentFormProps) => {
   const [description, setDescription] = useState(comment.description);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const router = useRouter();
 
   async function handleEditComment() {
-    if (description === '') {
+    if (description === comment.description || description === '') {
       return;
     }
 
     setIsSubmitting(true);
 
-    api.put('/comments', {
-      description,
-      comment_id: comment.id,
-    }).then(() => {
-      router.replace(router.asPath);
-    }).finally(() => {
-      setIsEditing(false);
-    });
+    const url = isReply ? '/replies' : '/comments';
+
+    const data = isReply
+      ? {
+          description,
+          reply_id: comment.id,
+        }
+      : {
+          description,
+          comment_id: comment.id,
+        };
+
+    api
+      .put(url, data)
+      .then(() => {
+        router.replace(router.asPath);
+      })
+      .finally(() => {
+        setIsEditing(false);
+      });
   }
 
   return (
@@ -41,7 +58,7 @@ export const EditCommentForm = ({ comment, setIsEditing }: EditCommentFormProps)
       <TextArea
         placeholder="Edit the comment"
         value={description}
-        onChange={e => setDescription(e.target.value)}
+        onChange={(e) => setDescription(e.target.value)}
       />
 
       <button
@@ -58,4 +75,4 @@ export const EditCommentForm = ({ comment, setIsEditing }: EditCommentFormProps)
       </button>
     </div>
   );
-}
+};

@@ -3,9 +3,15 @@ export type CreateReplyParams = {
   referenced_user: string;
   user_id: string;
   comment_id: string;
-}
+};
+
+export type UpdateReplyDescriptionParams = {
+  description: string;
+  reply_id: string;
+};
 
 export interface IRepliesRepository {
   create: (data: CreateReplyParams) => Promise<void>;
   delete: (id: string) => Promise<void>;
+  updateReplyDescription: (data: UpdateReplyDescriptionParams) => Promise<void>;
 }

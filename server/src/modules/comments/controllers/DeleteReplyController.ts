@@ -11,6 +11,6 @@ export class DeleteReplyController implements Controller {
 
     await this.deleteReply.execute(reply_id);
 
-    return response.status(200).json({ message: 'Deleted reply' });
+    return response.status(200).json({ message: 'Deleted comment reply' });
   }
 }

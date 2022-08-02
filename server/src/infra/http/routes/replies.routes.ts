@@ -7,6 +7,7 @@ import { makeEnsureAuthenticatedMiddleware } from '../factories/middlewares/Ensu
 
 import { makeCreateReplyController } from '../factories/controllers/CreateReplyControllerFactory';
 import { makeDeleteReplyController } from '../factories/controllers/DeleteReplyControllerFactory';
+import { makeUpdateReplyDescriptionController } from '../factories/controllers/UpdateReplyDescriptionControllerFactory';
 
 export const repliesRouter = Router();
 
@@ -19,4 +20,9 @@ repliesRouter.delete(
   '/',
   middlewareAdapter(makeEnsureAuthenticatedMiddleware()),
   routeAdapter(makeDeleteReplyController())
+);
+repliesRouter.put(
+  '/',
+  // middlewareAdapter(makeEnsureAuthenticatedMiddleware()),
+  routeAdapter(makeUpdateReplyDescriptionController())
 );

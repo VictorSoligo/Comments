@@ -1,6 +1,10 @@
 import { prisma } from '@infra/prisma/client';
 
-import { CreateReplyParams, IRepliesRepository } from '../IRepliesRepository';
+import {
+  CreateReplyParams,
+  IRepliesRepository,
+  UpdateReplyDescriptionParams,
+} from '../IRepliesRepository';
 
 export class RepliesRepository implements IRepliesRepository {
   async create({
@@ -24,6 +28,20 @@ export class RepliesRepository implements IRepliesRepository {
       where: {
         id,
       },
+    });
+  }
+
+  async updateReplyDescription({
+    description,
+    reply_id,
+  }: UpdateReplyDescriptionParams) {
+    await prisma.reply.update({
+      where: {
+        id: reply_id,
+      },
+      data: {
+        description,
+      }
     });
   }
 }

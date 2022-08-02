@@ -22,6 +22,6 @@ export class CreateReplyController implements Controller {
       user_id,
     });
 
-    return response.status(201).json({ message: 'Created reply' });
+    return response.status(201).json({ message: 'Created comment reply' });
   }
 }
