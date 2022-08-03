@@ -45,7 +45,7 @@ export const AddCommentForm = () => {
           className={classnames('rounded-full mr-4', {
             'border border-indigo-700 bg-indigo-50': !user,
           })}
-          src={user?.avatar_url}
+          src={user ? user?.avatar_url : undefined}
           height={40}
           width={40}
         />
@@ -60,7 +60,7 @@ export const AddCommentForm = () => {
         />
       </div>
 
-      <div className="">
+      <div>
         <button
           disabled={isSubmitting || !user}
           onClick={handleSubmitComment}

@@ -35,7 +35,7 @@ export const AuthContext = createContext({} as AuthContextData);
 export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
 
-  const signInUrl = `https://github.com/login/oauth/authorize?scope=user&client_id=7afc83d9c626a122d055`;
+  const signInUrl = `https://github.com/login/oauth/authorize?scope=user&client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}`;
 
   async function signIn(githubCode: string) {
     const response = await api.post<AuthResponse>('authenticate', {

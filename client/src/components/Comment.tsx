@@ -43,7 +43,7 @@ export const Comment = ({ comment }: CommentProps) => {
     setIsEditing((prevState) => !prevState);
   }
 
-  const isReply = comment.replies?.length === undefined;
+  const isReply = comment.replies === undefined;
 
   const formattedDate = formatDistance(
     new Date(comment.created_at),
@@ -61,11 +61,11 @@ export const Comment = ({ comment }: CommentProps) => {
           'mt-4 first:mt-0': isReply,
         })}
       >
-        <div className="hidden md:block">
+        <div className="hidden md:flex h-min">
           <FeedbackButton likes={comment.likes} />
         </div>
 
-        <div className="flex flex-col w-full">
+        <div className="flex flex-col flex-1 break-all">
           <div className="flex justify-between items-center mb-4">
             <div className="flex items-center">
               <img
@@ -100,7 +100,7 @@ export const Comment = ({ comment }: CommentProps) => {
                 comment={comment}
               />
             ) : (
-              <span className="break-words">
+              <span>
                 {comment.referenced_user && (
                   <span className="text-indigo-700 font-bold">
                     {`@${comment.referenced_user}`}
