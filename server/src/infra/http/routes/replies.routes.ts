@@ -23,6 +23,6 @@ repliesRouter.delete(
 );
 repliesRouter.put(
   '/',
-  // middlewareAdapter(makeEnsureAuthenticatedMiddleware()),
+  middlewareAdapter(makeEnsureAuthenticatedMiddleware()),
   routeAdapter(makeUpdateReplyDescriptionController())
 );

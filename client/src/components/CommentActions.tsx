@@ -1,5 +1,4 @@
 import { useAuth } from '../contexts/Auth';
-import { useRouter } from 'next/router';
 
 import { Button } from './Button';
 
@@ -10,6 +9,7 @@ import EditIcon from '../../public/icons/icon-edit.svg';
 import { api } from '../services/api';
 
 import { CommentData } from './Comment';
+import { useComments } from '../contexts/Comments';
 
 type CommentActions = {
   comment: CommentData;
@@ -25,7 +25,7 @@ export const CommentActions = ({
   toggleEditComment,
 }: CommentActions) => {
   const { user } = useAuth();
-  const router = useRouter();
+  const { fetchComments } = useComments();
 
   function handleDeleteComment() {
     api
@@ -35,7 +35,7 @@ export const CommentActions = ({
         },
       })
       .then(() => {
-        router.replace(router.asPath);
+        fetchComments();
       });
   }
 
@@ -47,7 +47,7 @@ export const CommentActions = ({
         },
       })
       .then(() => {
-        router.replace(router.asPath);
+        fetchComments();
       });
   }
 

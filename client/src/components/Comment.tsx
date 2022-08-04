@@ -101,7 +101,7 @@ export const Comment = ({ comment }: CommentProps) => {
               />
             ) : (
               <span>
-                {comment.referenced_user && (
+                {isReply && (
                   <span className="text-indigo-700 font-bold">
                     {`@${comment.referenced_user}`}
                   </span>

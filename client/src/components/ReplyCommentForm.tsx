@@ -1,8 +1,7 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 
-import { useRouter } from 'next/router';
-
 import { useAuth } from '../contexts/Auth';
+import { useComments } from '../contexts/Comments';
 
 import { TextArea } from './TextArea';
 import { CommentData } from './Comment';
@@ -30,8 +29,8 @@ export const ReplyCommentForm = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [description, setDescription] = useState('');
 
-  const router = useRouter();
   const { user } = useAuth();
+  const { fetchComments } = useComments();
 
   async function handleSubmitReply() {
     if (description == '') {
@@ -52,7 +51,7 @@ export const ReplyCommentForm = ({
       })
       .then(() => {
         setIsReplying(false);
-        router.replace(router.asPath);
+        fetchComments();
       })
       .finally(() => {
         setIsSubmitting(false);

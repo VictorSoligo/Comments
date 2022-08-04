@@ -11,7 +11,8 @@ export type UpdateCommentDescriptionParams = {
 };
 
 export interface ICommentsRepository {
-  getLast3: () => Promise<CommentWithUserInfo[]>;
+  get: (take: number) => Promise<CommentWithUserInfo[]>;
+  getPaginated: (page: number) => Promise<CommentWithUserInfo[]>;
   create: (data: CreateCommentParams) => Promise<void>;
   delete: (id: string) => Promise<void>;
   hasReplies: (id: string) => Promise<boolean>;

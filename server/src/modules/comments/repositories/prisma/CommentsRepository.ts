@@ -7,12 +7,69 @@ import {
 } from '../ICommentsRepository';
 
 export class CommentsRepository implements ICommentsRepository {
-  async getLast3() {
+  async get(take?: number) {
     const comments = await prisma.comment.findMany({
       orderBy: {
         created_at: 'desc',
       },
-      take: 3,
+      take,
+      select: {
+        id: true,
+        description: true,
+        likes: true,
+        created_at: true,
+        user: {
+          select: {
+            avatar_url: true,
+            id: true,
+            name: true,
+            login: true,
+          },
+        },
+        replies: {
+          select: {
+            id: true,
+            referenced_user: true,
+            description: true,
+            likes: true,
+            created_at: true,
+            comment_id: true,
+            user: {
+              select: {
+                avatar_url: true,
+                id: true,
+                name: true,
+                login: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return comments;
+  }
+
+  async getPaginated(page: number) {
+    let skip = (page - 1) * 6;
+    let take = 6;
+
+    if (page === 0) {
+      skip = 0;
+      take = 3;
+    }
+
+    if (page === 1) {
+      skip = 3;
+      take = 3;
+    }
+
+    const comments = await prisma.comment.findMany({
+      orderBy: {
+        created_at: 'desc',
+      },
+      skip,
+      take,
       select: {
         id: true,
         description: true,

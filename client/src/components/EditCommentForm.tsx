@@ -1,12 +1,13 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 
-import { useRouter } from 'next/router';
-
 import { CommentData } from './Comment';
 import { TextArea } from './TextArea';
 
-import { api } from '../services/api';
+import { useComments } from '../contexts/Comments';
+
 import classnames from 'classnames';
+
+import { api } from '../services/api';
 
 type EditCommentFormProps = {
   comment: CommentData;
@@ -22,7 +23,7 @@ export const EditCommentForm = ({
   const [description, setDescription] = useState(comment.description);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const router = useRouter();
+  const { fetchComments } = useComments();
 
   async function handleEditComment() {
     if (description === comment.description || description === '') {
@@ -46,7 +47,7 @@ export const EditCommentForm = ({
     api
       .put(url, data)
       .then(() => {
-        router.replace(router.asPath);
+        fetchComments();
       })
       .finally(() => {
         setIsEditing(false);

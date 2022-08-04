@@ -6,13 +6,15 @@ import { routeAdapter } from '@core/infra/adapters/ExpressRouteAdapter';
 import { makeEnsureAuthenticatedMiddleware } from '../factories/middlewares/EnsureAuthenticatedMiddlewareFactory';
 
 import { makeCreateCommentController } from '@infra/http/factories/controllers/CreateCommentControllerFactory';
-import { makeGetLast3CommentsController } from '@infra/http/factories/controllers/GetLast3CommentsControllerFactory';
+import { makeGetCommentsController } from '@infra/http/factories/controllers/GetCommentsControllerFactory';
 import { makeDeleteCommentController } from '@infra/http/factories/controllers/DeleteCommentControllerFactory';
 import { makeUpdateCommentDescriptionController } from '../factories/controllers/UpdateCommentDescriptionControllerFactory';
+import { makeGetPaginatedCommentsController } from '../factories/controllers/GetPaginatedCommentsFactory';
 
 export const commentsRouter = Router();
 
-commentsRouter.get('/', routeAdapter(makeGetLast3CommentsController()));
+commentsRouter.get('/', routeAdapter(makeGetCommentsController()));
+commentsRouter.get('/paginated', routeAdapter(makeGetPaginatedCommentsController()));
 commentsRouter.post(
   '/',
   middlewareAdapter(makeEnsureAuthenticatedMiddleware()),
