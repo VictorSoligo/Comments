@@ -7,8 +7,8 @@ import classnames from 'classnames';
 type ButtonProps = {
   onClick: () => void;
   text: string;
-  variant?: 'delete';
   icon: any;
+  variant?: 'delete';
 };
 
 export const Button = ({ onClick, text, variant, icon }: ButtonProps) => {
