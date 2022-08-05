@@ -8,6 +8,7 @@ export type CreateUserParams = {
 };
 
 export interface IUsersRepository {
+  findById: (id: string) => Promise<User>;
   findByGithubId: (github_id: number) => Promise<User>;
   create: (user: CreateUserParams) => Promise<User>;
 }

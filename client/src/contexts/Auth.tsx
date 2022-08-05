@@ -56,17 +56,17 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     localStorage.removeItem('@Comments:token');
   }
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem('@dowhile:token');
+  useEffect(() => {
+    const token = localStorage.getItem('@Comments:token');
 
-  //   if (token) {
-  //     api.defaults.headers.common.authorization = `Bearer ${token}`;
+    if (token) {
+      api.defaults.headers.common.authorization = `Bearer ${token}`;
 
-  //     api.get<User>('profile').then((response) => {
-  //       setUser(response.data);
-  //     });
-  //   }
-  // }, []);
+      api.get<User>('/authenticate/profile').then((response) => {
+        setUser(response.data);
+      });
+    }
+  }, []);
 
   useEffect(() => {
     const url = window.location.href;

@@ -3,6 +3,16 @@ import { prisma } from '@infra/prisma/client';
 import { CreateUserParams, IUsersRepository } from '../IUsersRepository';
 
 export class UsersRepository implements IUsersRepository {
+  async findById(id: string) {
+    const user = await prisma.user.findFirst({
+      where: {
+        id,
+      },
+    });
+
+    return user;
+  }
+
   async findByGithubId(github_id: number) {
     const user = await prisma.user.findFirst({
       where: {
