@@ -7,6 +7,7 @@ import { TextArea } from './TextArea';
 import { CommentData } from './Comment';
 
 import classnames from 'classnames';
+import { toast } from 'react-toastify';
 
 import { api } from '../services/api';
 
@@ -32,6 +33,8 @@ export const ReplyCommentForm = ({
   const { user } = useAuth();
   const { fetchComments } = useComments();
 
+  const notify = () => toast.success('Replied!');
+
   async function handleSubmitReply() {
     if (description == '') {
       return;
@@ -52,6 +55,7 @@ export const ReplyCommentForm = ({
       .then(() => {
         setIsReplying(false);
         fetchComments();
+        notify();
       })
       .finally(() => {
         setIsSubmitting(false);

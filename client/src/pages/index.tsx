@@ -7,11 +7,12 @@ import { AddCommentForm } from '../components/AddCommentForm';
 import { Header } from '../components/Header';
 import { LoginCard } from '../components/LoginCard';
 import { CommentData } from '../components/Comment';
+import { ToastContainer } from '../components/ToastContainer';
 
+import { useComments } from '../contexts/Comments';
 import { useAuth } from '../contexts/Auth';
 
 import { api } from '../services/api';
-import { useComments } from '../contexts/Comments';
 
 type HomeProps = {
   comments: CommentData[];
@@ -34,6 +35,8 @@ const Home: NextPage<HomeProps> = ({ comments }) => {
       <div className="flex-1"></div>
 
       <AddCommentForm />
+
+      <ToastContainer />
     </div>
   );
 };

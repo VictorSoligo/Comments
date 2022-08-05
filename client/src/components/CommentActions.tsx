@@ -6,6 +6,7 @@ import DeleteIcon from '../../public/icons/icon-delete.svg';
 import ReplyIcon from '../../public/icons/icon-reply.svg';
 import EditIcon from '../../public/icons/icon-edit.svg';
 
+import { toast } from 'react-toastify';
 import { api } from '../services/api';
 
 import { CommentData } from './Comment';
@@ -27,31 +28,28 @@ export const CommentActions = ({
   const { user } = useAuth();
   const { fetchComments } = useComments();
 
-  function handleDeleteComment() {
+  const notify = (message: string) => toast.success(message);
+
+  function handleDelete() {
+    let url = '/comments';
+    let data: any = { comment_id: comment.id }
+    let message = 'Deleted comment!';
+
+    if (isReply) {
+      url = '/replies';
+      data = { reply_id: comment.id };
+      message = 'Deleted reply!'
+    }
+
     api
-      .delete('/comments', {
-        data: {
-          comment_id: comment.id,
-        },
+      .delete(url, {
+        data,
       })
       .then(() => {
         fetchComments();
+        notify(message);
       });
   }
-
-  function handleDeleteReply() {
-    api
-      .delete('/replies', {
-        data: {
-          reply_id: comment.id,
-        },
-      })
-      .then(() => {
-        fetchComments();
-      });
-  }
-
-  const deleteFunction = isReply ? handleDeleteReply : handleDeleteComment;
 
   return (
     <>
@@ -61,7 +59,7 @@ export const CommentActions = ({
             icon={DeleteIcon}
             text="Delete"
             variant="delete"
-            onClick={deleteFunction}
+            onClick={handleDelete}
           />
 
           <Button icon={EditIcon} text="Edit" onClick={toggleEditComment} />

@@ -6,6 +6,7 @@ import { useAuth } from '../contexts/Auth';
 import { useComments } from '../contexts/Comments';
 
 import classnames from 'classnames';
+import { toast } from 'react-toastify';
 
 import { api } from '../services/api';
 
@@ -15,6 +16,8 @@ export const AddCommentForm = () => {
 
   const { user } = useAuth();
   const { fetchComments } = useComments();
+
+  const notify = () => toast.success('Commented!');
 
   async function handleSubmitComment() {
     if (description === '') {
@@ -30,6 +33,7 @@ export const AddCommentForm = () => {
       })
       .then(() => {
         fetchComments();
+        notify();
       })
       .finally(() => {
         setIsSubmitting(false);

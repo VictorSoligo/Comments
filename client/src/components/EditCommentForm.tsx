@@ -6,6 +6,7 @@ import { TextArea } from './TextArea';
 import { useComments } from '../contexts/Comments';
 
 import classnames from 'classnames';
+import { toast } from 'react-toastify';
 
 import { api } from '../services/api';
 
@@ -25,6 +26,8 @@ export const EditCommentForm = ({
 
   const { fetchComments } = useComments();
 
+  const notify = (message: string) => toast.success(message);
+
   async function handleEditComment() {
     if (description === comment.description || description === '') {
       return;
@@ -32,22 +35,27 @@ export const EditCommentForm = ({
 
     setIsSubmitting(true);
 
-    const url = isReply ? '/replies' : '/comments';
+    let url = '/comments';
+    let message = 'Edited comment!';
+    let data: any = {
+      description,
+      comment_id: comment.id,
+    };
 
-    const data = isReply
-      ? {
-          description,
-          reply_id: comment.id,
-        }
-      : {
-          description,
-          comment_id: comment.id,
-        };
+    if (isReply) {
+      url = '/replies';
+      message = 'Edited reply!';
+      data = {
+        description,
+        reply_id: comment.id,
+      };
+    }
 
     api
       .put(url, data)
       .then(() => {
         fetchComments();
+        notify(message);
       })
       .finally(() => {
         setIsEditing(false);
