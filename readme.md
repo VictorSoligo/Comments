@@ -30,5 +30,5 @@ It is a full stack web application built with the technologies I am currently st
 
 <ul>
   <li>$ cd client</li>
-  <li>$ yarn</li>
+  <li>$ yarn dev</li>
 </ul>
