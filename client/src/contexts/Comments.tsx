@@ -18,6 +18,7 @@ type CommentsContextData = {
   setPage: Dispatch<SetStateAction<number>>;
   isFetchBlocked: boolean;
   setIsFetchBlocked: Dispatch<SetStateAction<boolean>>;
+  isFetchingComments: boolean;
   fetchComments: () => void;
 };
 
@@ -33,14 +34,18 @@ export const CommentsContextProvider = ({
   const [comments, setComments] = useState<CommentData[]>([]);
   const [page, setPage] = useState(0);
   const [isFetchBlocked, setIsFetchBlocked] = useState(false);
+  const [isFetchingComments, setIsFetchingComments] = useState(false);
 
   function fetchComments() {
+    setIsFetchingComments(true);
+
     let limit = page === 0 ? 3 : page * 6;
 
     api.get(`/comments?limit=${limit}`).then((response) => {
       const comments = response.data.comments;
 
       setComments(comments);
+      setIsFetchingComments(false);
     });
   }
 
@@ -54,6 +59,7 @@ export const CommentsContextProvider = ({
         fetchComments,
         isFetchBlocked,
         setIsFetchBlocked,
+        isFetchingComments
       }}
     >
       {children}
