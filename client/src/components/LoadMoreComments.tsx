@@ -7,9 +7,14 @@ import { useComments } from '../contexts/Comments';
 
 export const LoadMoreComments = () => {
   const [isFetching, setIsFetching] = useState(false);
-  const [isFetchBlocked, setIsFetchBlocked] = useState(false);
 
-  const { setComments, page, setPage } = useComments();
+  const {
+    setComments,
+    page,
+    setPage,
+    isFetchBlocked,
+    setIsFetchBlocked
+  } = useComments();
 
   function loadMoreComments() {
     setIsFetching(true);

@@ -15,7 +15,7 @@ export const AddCommentForm = () => {
   const [description, setDescription] = useState('');
 
   const { user } = useAuth();
-  const { fetchComments } = useComments();
+  const { fetchComments, setIsFetchBlocked, isFetchBlocked } = useComments();
 
   const notify = () => toast.success('Commented!');
 
@@ -34,6 +34,10 @@ export const AddCommentForm = () => {
       .then(() => {
         fetchComments();
         notify();
+
+        if (isFetchBlocked) {
+          setIsFetchBlocked(false);
+        }
       })
       .finally(() => {
         setIsSubmitting(false);
