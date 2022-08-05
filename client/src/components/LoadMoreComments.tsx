@@ -37,7 +37,7 @@ export const LoadMoreComments = () => {
           ]);
         }
 
-        if (page === 0 && comments.length === 0) {
+        if (page === 0 && comments.length < 3) {
           setIsFetchBlocked(true);
         }
 
