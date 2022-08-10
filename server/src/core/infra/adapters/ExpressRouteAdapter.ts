@@ -7,7 +7,7 @@ export const routeAdapter = (controller: Controller) => {
     try {
       await controller.handle(request, response);
     } catch (error) {
-      response.status(500).json({ error: 'Error' });
+      response.status(500).json({ error });
     }
   }
 }

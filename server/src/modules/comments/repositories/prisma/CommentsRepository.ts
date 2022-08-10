@@ -16,7 +16,6 @@ export class CommentsRepository implements ICommentsRepository {
       select: {
         id: true,
         description: true,
-        likes: true,
         created_at: true,
         user: {
           select: {
@@ -31,7 +30,6 @@ export class CommentsRepository implements ICommentsRepository {
             id: true,
             referenced_user: true,
             description: true,
-            likes: true,
             created_at: true,
             comment_id: true,
             user: {
@@ -73,7 +71,6 @@ export class CommentsRepository implements ICommentsRepository {
       select: {
         id: true,
         description: true,
-        likes: true,
         created_at: true,
         user: {
           select: {
@@ -88,7 +85,6 @@ export class CommentsRepository implements ICommentsRepository {
             id: true,
             referenced_user: true,
             description: true,
-            likes: true,
             created_at: true,
             comment_id: true,
             user: {
@@ -108,12 +104,17 @@ export class CommentsRepository implements ICommentsRepository {
   }
 
   async create({ description, user_id }: CreateCommentParams) {
-    await prisma.comment.create({
+    const { id } = await prisma.comment.create({
       data: {
         description,
         user_id,
       },
+      select: {
+        id: true,
+      }
     });
+
+    return id;
   }
 
   async delete(id: string) {

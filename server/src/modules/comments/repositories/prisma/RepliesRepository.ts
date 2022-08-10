@@ -13,14 +13,19 @@ export class RepliesRepository implements IRepliesRepository {
     referenced_user,
     user_id,
   }: CreateReplyParams) {
-    await prisma.reply.create({
+    const { id } = await prisma.reply.create({
       data: {
         description,
         referenced_user,
         user_id,
         comment_id,
       },
+      select: {
+        id: true,
+      },
     });
+
+    return id;
   }
 
   async delete(id: string) {
@@ -41,7 +46,7 @@ export class RepliesRepository implements IRepliesRepository {
       },
       data: {
         description,
-      }
+      },
     });
   }
 }

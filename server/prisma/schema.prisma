@@ -8,21 +8,22 @@ datasource db {
 }
 
 model User {
-  id         String    @id @default(uuid())
-  name       String
-  github_id  Int
-  avatar_url String
-  login      String
-  comments   Comment[]
-  replies    Reply[]
-  created_at DateTime  @default(now())
+  id                 String             @id @default(uuid())
+  name               String
+  github_id          Int
+  avatar_url         String
+  login              String
+  created_at         DateTime           @default(now())
+  comments           Comment[]
+  replies            Reply[]
+  comments_feedbacks CommentFeedbacks[]
+  replies_feedbacks  ReplyFeedbacks[]
 
   @@map("users")
 }
 
 model Comment {
   id          String   @id @default(uuid())
-  likes       Int      @default(0)
   description String
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
@@ -30,18 +31,19 @@ model Comment {
 
   user_id String
 
-  user User @relation(fields: [user_id], references: [id])
+  user               User               @relation(fields: [user_id], references: [id])
+  comments_feedbacks CommentFeedbacks[]
 
   @@map("comments")
 }
 
 model Reply {
-  id              String   @id @default(uuid())
-  likes           Int      @default(0)
-  description     String
-  created_at      DateTime @default(now())
-  updated_at      DateTime @updatedAt
-  referenced_user String
+  id                String           @id @default(uuid())
+  description       String
+  created_at        DateTime         @default(now())
+  updated_at        DateTime         @updatedAt
+  referenced_user   String
+  replies_feedbacks ReplyFeedbacks[]
 
   user_id    String
   comment_id String
@@ -50,4 +52,32 @@ model Reply {
   comment Comment @relation(fields: [comment_id], references: [id])
 
   @@map("replies")
+}
+
+model CommentFeedbacks {
+  id             String   @id @default(uuid())
+  feedback_value Int
+  created_at     DateTime @default(now())
+
+  user_id    String
+  comment_id String
+
+  user    User    @relation(fields: [user_id], references: [id])
+  comment Comment @relation(fields: [comment_id], references: [id])
+
+  @@map("comments_feedbacks")
+}
+
+model ReplyFeedbacks {
+  id             String   @id @default(uuid())
+  feedback_value Int
+  created_at     DateTime @default(now())
+
+  user_id  String
+  reply_id String
+
+  user  User  @relation(fields: [user_id], references: [id])
+  reply Reply @relation(fields: [reply_id], references: [id])
+
+  @@map("replies_feedbacks")
 }

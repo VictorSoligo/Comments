@@ -21,10 +21,10 @@ export const LoadMoreComments = () => {
   function loadMoreComments() {
     setIsFetching(true);
 
-    let teste = page === 0 ? 1 : page + 1;
+    let commentsPage = page === 0 ? 1 : page + 1;
 
     api
-      .get(`/comments/paginated?page=${teste}`)
+      .get(`/comments/paginated?page=${commentsPage}`)
       .then((response) => {
         const comments: CommentData[] = response.data.comments;
 

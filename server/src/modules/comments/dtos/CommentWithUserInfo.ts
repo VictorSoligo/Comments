@@ -5,9 +5,9 @@ type Reply = Omit<CommentWithUserInfo, "replies"> & {
 
 export type CommentWithUserInfo = {
   id: string;
-  likes: number;
   description: string;
   created_at: Date;
+  likes?: number;
   user: {
     id: string;
     avatar_url: string;
