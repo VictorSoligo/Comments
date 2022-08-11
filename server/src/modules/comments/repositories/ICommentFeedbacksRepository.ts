@@ -8,6 +8,12 @@ export type AddCommentFeedbackParams = {
   user_id: string;
 };
 
+export type CanUserGiveFeedbackParams = {
+  comment_id: string;
+  user_id: string;
+  feedback_type: 'positive' | 'negative';
+}
+
 export interface ICommentFeedbacksRepository {
   getCommentsFeedback: (
     comment_id: string[]
@@ -15,4 +21,5 @@ export interface ICommentFeedbacksRepository {
   createFirstCommentFeedback: (data: AddCommentFeedbackParams) => Promise<void>;
   addPositiveFeedback: (data: AddCommentFeedbackParams) => Promise<void>;
   addNegativeFeedback: (data: AddCommentFeedbackParams) => Promise<void>;
+  canUserGiveCommentFeedback: (data: CanUserGiveFeedbackParams) => Promise<boolean>;
 }

@@ -62,7 +62,11 @@ export const Comment = ({ comment }: CommentProps) => {
         })}
       >
         <div className="hidden md:flex h-min">
-          <FeedbackButton likes={comment.likes} />
+          <FeedbackButton
+            comment_id={comment.id}
+            isReply={isReply}
+            likes={comment.likes}
+          />
         </div>
 
         <div className="flex flex-col flex-1 break-all">
@@ -112,7 +116,11 @@ export const Comment = ({ comment }: CommentProps) => {
           </div>
 
           <div className="flex md:hidden items-center justify-between mt-4">
-            <FeedbackButton likes={comment.likes} />
+            <FeedbackButton
+              comment_id={comment.id}
+              isReply={isReply}
+              likes={comment.likes}
+            />
 
             <CommentActions
               comment={comment}

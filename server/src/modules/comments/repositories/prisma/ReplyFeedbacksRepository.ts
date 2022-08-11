@@ -4,6 +4,7 @@ import {
   IReplyFeedbacksRepository,
   GetRepliesFeedbackData,
   AddReplyFeedbackParams,
+  CanUserGiveFeedbackParams,
 } from '../IReplyFeedbacksRepository';
 
 export class ReplyFeedbacksRepository implements IReplyFeedbacksRepository {
@@ -60,5 +61,35 @@ export class ReplyFeedbacksRepository implements IReplyFeedbacksRepository {
         user_id,
       },
     });
+  }
+
+  async canUserGiveReplyFeedback({
+    feedback_type,
+    reply_id,
+    user_id,
+  }: CanUserGiveFeedbackParams) {
+    const { _sum: { feedback_value }} = await prisma.replyFeedbacks.aggregate({
+      _sum: {
+        feedback_value: true,
+      },
+      where: {
+        reply_id,
+        AND: {
+          user_id,
+        },
+      },
+    });
+
+    let canGiveFeedback = false;
+
+    if (feedback_type === 'positive' && feedback_value < 1) {
+      canGiveFeedback = true;
+    }
+
+    if (feedback_type === 'negative' && feedback_value > -1) {
+      canGiveFeedback = true;
+    }
+
+    return canGiveFeedback;
   }
 }

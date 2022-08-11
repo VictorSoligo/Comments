@@ -4,7 +4,9 @@ export class DeleteComment {
   constructor(private commentsRepository: ICommentsRepository) {}
 
   async execute(id: string) {
-    if (await this.commentsRepository.hasReplies(id)) {
+    const hasReplies = await this.commentsRepository.hasReplies(id)
+
+    if (hasReplies) {
       await this.commentsRepository.deleteCommentReplies(id);
     }
 

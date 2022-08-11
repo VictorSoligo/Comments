@@ -1,6 +1,9 @@
 import { ICommentFeedbacksRepository } from '../repositories/ICommentFeedbacksRepository';
 import { ICommentsRepository } from '../repositories/ICommentsRepository';
-import { IReplyFeedbacksRepository } from '../repositories/IReplyFeedbacksRepository';
+import {
+  GetRepliesFeedbackData,
+  IReplyFeedbacksRepository,
+} from '../repositories/IReplyFeedbacksRepository';
 
 export class GetPaginatedComments {
   constructor(
@@ -10,12 +13,12 @@ export class GetPaginatedComments {
   ) {}
 
   async execute(page: number) {
-    const comments = await this.commentsRepository.getPaginated(page);
-
-    let commentIds: string[] = [];
-    let repliesIds: string[] = [];
+    let comments = await this.commentsRepository.getPaginated(page);
 
     if (comments.length > 0) {
+      let commentIds: string[] = [];
+      let repliesIds: string[] = [];
+
       comments.forEach((comment) => {
         if (comment.replies.length > 0) {
           comment.replies.forEach((reply) => repliesIds.push(reply.id));
@@ -24,11 +27,11 @@ export class GetPaginatedComments {
         commentIds.push(comment.id);
       });
 
-      const likes = await this.commentFeedbacksRepository.getCommentsFeedback(
+      const commentsLikes = await this.commentFeedbacksRepository.getCommentsFeedback(
         commentIds
       );
 
-      let repliesLikes = [];
+      let repliesLikes: GetRepliesFeedbackData[] = [];
 
       if (repliesIds.length > 0) {
         repliesLikes = await this.replyFeedbacksRepository.getRepliesFeedback(
@@ -36,35 +39,41 @@ export class GetPaginatedComments {
         );
       }
 
-      if (likes.length > 0) {
-        likes.forEach((like) => {
-          comments.forEach((comment, commentIndex) => {
-            if (comment.replies.length > 0) {
-              comment.replies.forEach((reply, replyIndex) => {
-                repliesLikes.forEach((replyLike) => {
-                  const replyLikes =
-                    reply.id === replyLike.reply_id
-                      ? Number(replyLike.likes)
-                      : 0;
+      comments.forEach((comment, commentIndex) => {
+        let likes = 0;
 
-                  comments[commentIndex].replies[replyIndex] = {
-                    ...reply,
-                    likes: replyLikes,
-                  };
-                });
-              });
+        const commentLikes = commentsLikes.filter((commentLike) => {
+          return commentLike.comment_id === comment.id;
+        });
+
+        if (commentLikes.length > 0) {
+          likes = Number(commentLikes[0].likes);
+        }
+
+        comments[commentIndex] = {
+          ...comments[commentIndex],
+          likes,
+        };
+
+        if (comment.replies.length > 0) {
+          comment.replies.forEach((reply, replyIndex) => {
+            const replyLikes = repliesLikes.filter((replyLike) => {
+              return replyLike.reply_id === reply.id;
+            });
+
+            let likes = 0;
+
+            if (replyLikes.length > 0) {
+              likes = Number(replyLikes[0].likes);
             }
 
-            const commentLikes =
-              comment.id === like.comment_id ? Number(like.likes) : 0;
-
-            comments[commentIndex] = {
-              ...comments[commentIndex],
-              likes: commentLikes,
+            comments[commentIndex].replies[replyIndex] = {
+              ...reply,
+              likes,
             };
           });
-        });
-      }
+        }
+      });
     }
 
     return comments;
