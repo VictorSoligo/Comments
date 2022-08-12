@@ -30,6 +30,24 @@ export class ReplyFeedbacksRepository implements IReplyFeedbacksRepository {
     return feedbacksSum;
   }
 
+  async deleteReplyFeedbacks(reply_id: string) {
+    await prisma.replyFeedbacks.deleteMany({
+      where: {
+        reply_id,
+      },
+    });
+  }
+
+  async deleteCommentRepliesFeedbacks(comment_id: string) {
+    await prisma.replyFeedbacks.deleteMany({
+      where: {
+        reply: {
+          comment_id,
+        },
+      },
+    });
+  }
+
   async createFirstReplyFeedback({
     reply_id,
     user_id,
@@ -68,7 +86,9 @@ export class ReplyFeedbacksRepository implements IReplyFeedbacksRepository {
     reply_id,
     user_id,
   }: CanUserGiveFeedbackParams) {
-    const { _sum: { feedback_value }} = await prisma.replyFeedbacks.aggregate({
+    const {
+      _sum: { feedback_value },
+    } = await prisma.replyFeedbacks.aggregate({
       _sum: {
         feedback_value: true,
       },

@@ -36,6 +36,14 @@ export class RepliesRepository implements IRepliesRepository {
     });
   }
 
+  async deleteCommentReplies(comment_id: string) {
+    await prisma.reply.deleteMany({
+      where: {
+        comment_id,
+      },
+    });
+  }
+
   async updateReplyDescription({
     description,
     reply_id,

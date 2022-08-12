@@ -111,7 +111,7 @@ export class CommentsRepository implements ICommentsRepository {
       },
       select: {
         id: true,
-      }
+      },
     });
 
     return id;
@@ -121,14 +121,6 @@ export class CommentsRepository implements ICommentsRepository {
     await prisma.comment.delete({
       where: {
         id,
-      },
-    });
-  }
-
-  async deleteCommentReplies(id: string) {
-    await prisma.reply.deleteMany({
-      where: {
-        comment_id: id,
       },
     });
   }

@@ -18,6 +18,7 @@ export interface ICommentFeedbacksRepository {
   getCommentsFeedback: (
     comment_id: string[]
   ) => Promise<GetCommentsFeedbackData[]>;
+  deleteCommentFeedbacks: (comment_id: string) => Promise<void>;
   createFirstCommentFeedback: (data: AddCommentFeedbackParams) => Promise<void>;
   addPositiveFeedback: (data: AddCommentFeedbackParams) => Promise<void>;
   addNegativeFeedback: (data: AddCommentFeedbackParams) => Promise<void>;

@@ -16,8 +16,5 @@ export interface ICommentsRepository {
   create: (data: CreateCommentParams) => Promise<string>;
   delete: (id: string) => Promise<void>;
   hasReplies: (id: string) => Promise<boolean>;
-  deleteCommentReplies: (id: string) => Promise<void>;
-  updateCommentDescription: (
-    data: UpdateCommentDescriptionParams
-  ) => Promise<void>;
+  updateCommentDescription: (data: UpdateCommentDescriptionParams) => Promise<void>;
 }

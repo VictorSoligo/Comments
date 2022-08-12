@@ -13,5 +13,6 @@ export type UpdateReplyDescriptionParams = {
 export interface IRepliesRepository {
   create: (data: CreateReplyParams) => Promise<string>;
   delete: (id: string) => Promise<void>;
+  deleteCommentReplies: (comment_id: string) => Promise<void>;
   updateReplyDescription: (data: UpdateReplyDescriptionParams) => Promise<void>;
 }

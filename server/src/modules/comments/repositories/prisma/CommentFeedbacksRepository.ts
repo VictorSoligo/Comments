@@ -53,6 +53,14 @@ export class CommentFeedbacksRepository implements ICommentFeedbacksRepository {
     });
   }
 
+  async deleteCommentFeedbacks(comment_id: string) {
+    await prisma.commentFeedbacks.deleteMany({
+      where: {
+        comment_id,
+      },
+    });
+  }
+
   async addNegativeFeedback({ comment_id, user_id }: AddCommentFeedbackParams) {
     await prisma.commentFeedbacks.create({
       data: {

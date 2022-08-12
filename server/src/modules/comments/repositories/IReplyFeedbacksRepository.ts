@@ -17,6 +17,8 @@ export type CanUserGiveFeedbackParams = {
 export interface IReplyFeedbacksRepository {
   getRepliesFeedback: (reply_id: string[]) => Promise<GetRepliesFeedbackData[]>;
   createFirstReplyFeedback: (data: AddReplyFeedbackParams) => Promise<void>;
+  deleteReplyFeedbacks: (reply_id: string) => Promise<void>;
+  deleteCommentRepliesFeedbacks: (comment_id: string) => Promise<void>;
   addPositiveFeedback: (data: AddReplyFeedbackParams) => Promise<void>;
   addNegativeFeedback: (data: AddReplyFeedbackParams) => Promise<void>;
   canUserGiveReplyFeedback: (data: CanUserGiveFeedbackParams) => Promise<boolean>;
