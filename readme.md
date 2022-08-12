@@ -14,6 +14,8 @@ It is a full stack web application built with the technologies I am currently st
 
 <ul>
   <li>Create a new OAuth Github application</li>
+  <li>Homepage URL should be "http://localhost:3333"</li>
+  <li>Authorization callback URL should be "http://localhost:3000/"<l/i>
   <li>Generate a client secret</li>
   <li>Rename "server/.env.example" to ".env"</li>
   <li>Add the generated client secret and client id to ".env"</li>
