@@ -9,6 +9,7 @@ It is a full stack web application built with the technologies I am currently st
   <li>$ yarn</li>
   <li>$ cd server</li>
   <li>$ yarn</li>
+  <li>$ npx prisma migrate dev</li>
 </ul>
 
 <ul>
