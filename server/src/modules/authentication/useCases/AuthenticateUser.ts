@@ -44,11 +44,15 @@ export class AuthenticateUser {
       }
     );
 
-    const { login, id, avatar_url, name } = response.data;
+    let { login, id, avatar_url, name } = response.data;
 
     let user = await this.usersRepository.findByGithubId(id);
 
     if (!user) {
+      if (!name) {
+        name = login;
+      }
+
       user = await this.usersRepository.create({
         login,
         id,
